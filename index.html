@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Perfuração</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Cor de fundo suave */
+        }
+        /* Estilos customizados para inputs e selects para melhor aparência em mobile */
+        select, input[type="text"], input[type="number"], input[type="file"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        .form-select-custom {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem; /* Espaço para a seta */
+        }
+        .file-input-label {
+            cursor: pointer;
+        }
+        .file-input-label:hover {
+            background-color: #4a5568; /* Um pouco mais escuro no hover */
+        }
+        /* Estilo para o container das miniaturas de fotos */
+        .photo-previews {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem; /* Espaçamento entre as miniaturas */
+            margin-top: 0.5rem;
+        }
+        .photo-previews img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.375rem; /* rounded-md */
+            border: 1px solid #e2e8f0; /* gray-300 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-2xl">
+        <div class="mb-6 text-center">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Nova Perfuração</h1>
+            <p class="text-sm text-gray-500 mt-1">Análise Associada: <span class="font-semibold">[Nome da Análise/Empreendimento Aqui]</span></p>
+        </div>
+
+        <form id="perfuracaoForm" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <label for="numero_identificador" class="block text-sm font-medium text-gray-700 mb-1">Número Identificador da Perfuração</label>
+                    <input type="text" name="numero_identificador" id="numero_identificador" placeholder="Ex: P01, Furo-A" required
+                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+                <div>
+                    <label for="profundidade" class="block text-sm font-medium text-gray-700 mb-1">Profundidade (metros)</label>
+                    <input type="number" name="profundidade" id="profundidade" step="0.01" placeholder="Ex: 1.50" required
+                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <label for="tipo_solo" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Solo</label>
+                    <select id="tipo_solo" name="tipo_solo" required
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out form-select-custom">
+                        <option value="" disabled selected>Selecione o tipo de solo</option>
+                        <option value="argila">Argila</option>
+                        <option value="areia">Areia</option>
+                        <option value="silte">Silte</option>
+                        <option value="rocha">Rocha</option>
+                        <option value="organico">Orgânico</option>
+                        <option value="aterro">Aterro</option>
+                        <option value="outro_tipo_solo">Outro</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="uso_solo" class="block text-sm font-medium text-gray-700 mb-1">Uso do Solo</label>
+                    <select id="uso_solo" name="uso_solo" required
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out form-select-custom">
+                        <option value="" disabled selected>Selecione o uso do solo</option>
+                        <option value="agricola">Agrícola</option>
+                        <option value="urbano">Urbano</option>
+                        <option value="floresta_nativa">Floresta Nativa</option>
+                        <option value="pastagem">Pastagem</option>
+                        <option value="industrial">Industrial</option>
+                        <option value="area_preservacao">Área de Preservação</option>
+                        <option value="outro_uso_solo">Outro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <label for="tipo_topografia" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Topografia</label>
+                    <select id="tipo_topografia" name="tipo_topografia" required
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out form-select-custom">
+                        <option value="" disabled selected>Selecione a topografia</option>
+                        <option value="plano">Plano</option>
+                        <option value="ondulado">Ondulado</option>
+                        <option value="montanhoso">Montanhoso</option>
+                        <option value="escarpado">Escarpado</option>
+                        <option value="depressao">Depressão</option>
+                        <option value="outro_tipo_topografia">Outro</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="cor_solo" class="block text-sm font-medium text-gray-700 mb-1">Cor Predominante do Solo</label>
+                    <select id="cor_solo" name="cor_solo" required
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out form-select-custom">
+                        <option value="" disabled selected>Selecione a cor do solo</option>
+                        <option value="avermelhado">Avermelhado</option>
+                        <option value="amarelado">Amarelado</option>
+                        <option value="marrom">Marrom</option>
+                        <option value="cinza_escuro">Cinza Escuro</option>
+                        <option value="cinza_claro">Cinza Claro</option>
+                        <option value="preto">Preto</option>
+                        <option value="esbranquicado">Esbranquiçado</option>
+                        <option value="outro_cor_solo">Outro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Fotos da Perfuração</label>
+                <label for="fotos" class="file-input-label inline-block bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2.5 px-5 rounded-lg shadow-md transition duration-150 ease-in-out">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 -mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4V5h12v10zm-4.707-6.707a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l3-3z" clip-rule="evenodd" />
+                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" /> <path fill-rule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586A2 2 0 0112.414 4H7.586A2 2 0 015.586 5H4zm10.5 3.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" clip-rule="evenodd" /> </svg>
+                    Adicionar Fotos
+                </label>
+                <input type="file" name="fotos" id="fotos" multiple accept="image/*" class="hidden" onchange="displayFilePreviews(event)">
+                <p id="file-info" class="text-xs text-gray-500 mt-1">Nenhuma foto selecionada. (Múltiplas fotos são permitidas)</p>
+                <div id="photo-preview-container" class="photo-previews">
+                    </div>
+            </div>
+
+            <div>
+                <label for="observacoes" class="block text-sm font-medium text-gray-700 mb-1">Observações (Opcional)</label>
+                <textarea id="observacoes" name="observacoes" rows="3" placeholder="Detalhes adicionais, condições do local, etc."
+                          class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"></textarea>
+            </div>
+
+            <div class="pt-2">
+                <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out">
+                    Salvar Perfuração
+                </button>
+            </div>
+        </form>
+        <div id="successMessage" class="hidden mt-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+            Perfuração salva com sucesso (simulação)!
+        </div>
+    </div>
+
+    <script>
+        // Script para exibir o nome e miniaturas dos arquivos selecionados
+        const fileInput = document.getElementById('fotos');
+        const fileInfo = document.getElementById('file-info');
+        const photoPreviewContainer = document.getElementById('photo-preview-container');
+        const form = document.getElementById('perfuracaoForm');
+        const successMessage = document.getElementById('successMessage');
+
+        fileInput.addEventListener('change', displayFilePreviews);
+
+        function displayFilePreviews(event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                fileInfo.textContent = `${files.length} foto(s) selecionada(s).`;
+                // Limpa previews anteriores
+                photoPreviewContainer.innerHTML = ''; 
+                
+                for (const file of files) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = file.name;
+                        // Adiciona classes Tailwind para estilo, se necessário, ou use as do CSS
+                        // img.className = 'h-20 w-20 object-cover rounded-md border border-gray-300'; 
+                        photoPreviewContainer.appendChild(img);
+                    }
+                    reader.readAsDataURL(file); // Lê o arquivo como Data URL para preview
+                }
+            } else {
+                fileInfo.textContent = 'Nenhuma foto selecionada. (Múltiplas fotos são permitidas)';
+                photoPreviewContainer.innerHTML = ''; // Limpa previews se nenhum arquivo for selecionado
+            }
+        }
+
+        // Simulação de envio do formulário
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio real do formulário
+            
+            // Aqui você adicionaria a lógica para coletar os dados do formulário
+            // const formData = new FormData(form);
+            // for (let [key, value] of formData.entries()) {
+            //     console.log(key, value);
+            // }
+            // Em um app real, você salvaria no SQLite aqui.
+
+            successMessage.classList.remove('hidden');
+            setTimeout(() => {
+                successMessage.classList.add('hidden');
+            }, 3000); // Esconde a mensagem após 3 segundos
+
+            // Opcional: Limpar o formulário ou redirecionar
+            // form.reset();
+            // photoPreviewContainer.innerHTML = '';
+            // fileInfo.textContent = 'Nenhuma foto selecionada. (Múltiplas fotos são permitidas)';
+        });
+    </script>
+</body>
+</html>
